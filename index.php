@@ -27,7 +27,7 @@
 	}
 	$head .= qtag("meta");
 	$head .= tag("title", $col_name . " - LGR11-planerare");
-		
+	
 	$incString = "jquery,jqueryUIjs, jqueryUIcss,css";
 	if($view == "table"){
 		$incString .= ",DTjQ,DTTT,DTfH,DTin,DTcss,DTfHcss,DTfHcss,DTTTcss";
@@ -87,8 +87,14 @@
 	
 	$chosenContentTable = sql_select("lgr_centralcontent", $criteriaArray);
 	
+	/* create the second table that only contains the rows that are not included in the first table */
+	
+	foreach($criteriaArray[1]["index"] as $key => $indexToShow){
+		$criteriaArray[1]["index"][$key] = "NOT:" . $indexToShow;
+	}
+	
 	$criteriaArray[0] = "AND";
-	$nonChosenContentTable = sql_select("lgr_centralcontent", $criteriaArray, "all", TRUE);
+	$nonChosenContentTable = sql_select("lgr_centralcontent", $criteriaArray, "all");
 	
 	$tableTable = array("chosen" => $chosenContentTable, "notChosen" => $nonChosenContentTable);
 	
@@ -104,6 +110,7 @@
 	}
 	
 	if($view != "table"){
+		// creating the LIST-view
 		if($oldColCode){
 			$theList = $tableTable["chosen"];
 		}
@@ -132,6 +139,7 @@
 		$form .= qtag("div", $container, "container");
 	}
 	else{
+	// creating the TABLE view
 		$form .=  create_htmltable_from_array($tableTable["chosen"], "chosen");
 		
 		$form .=  create_htmltable_from_array($tableTable["notChosen"], "notChosen");
