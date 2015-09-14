@@ -2,11 +2,9 @@
 	
 	/* PREAMBLE */
     $url = "https://raw.githubusercontent.com/fridde/friddes_php_functions/master/include.php";
-    $content = file_get_contents($url); 
-    if($content != FALSE){
-        //file_put_contents("include.php", $content); 
-	}
-    include "include.php";
+    $filename = "include.php";
+    copy($url, $filename);
+    include $filename;
 	/* END OF PREAMBLE */
 	
 	inc("fnc,sql");
@@ -33,7 +31,7 @@
 		$incString .= ",DTjQ,DTTT,DTfH,DTin,DTcss,DTfHcss,DTfHcss,DTTTcss";
 	}
 	else{
-		$incString .= ",bootcss,bootjs,boottheme,fAwe,init,star";
+		$incString .= ",bootcss,bootjs,boottheme,fAwe,init,star,starCSS";
 	}
 	$head .= inc($incString, FALSE, TRUE);
 	
@@ -120,7 +118,9 @@
 		$theList = array_orderby($theList, "Index");
 		
 		foreach($theList as $row => $rowContent){
-			$li = qtag("fa", "arrows-v", "2x");
+			$li = "";
+			$li .= tag("input", "", array("id" =>"test_" . $row, "class" => "rating", "type" => "number"));
+			$li .= qtag("fa", "arrows-v", "2x");
 			$li .= $rowContent["Spara"] . $rowContent["Index"] . ": " .  $rowContent["Innehåll"];
 			$current_id = "indexArray_" . $rowContent["Index"];
 			$li_atts = array("id" => $current_id);

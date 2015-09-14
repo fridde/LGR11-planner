@@ -1,31 +1,1 @@
-$(document).ready(function() {
-	
-	$("#colName").change(function(){
-		
-		var colName = $("#colName").val();
-		
-		$.ajax({
-			data: '',
-			type: 'POST',
-			url: 'update.php?type=changeName' +  '&c=' + $("#colCode").val() + '&col_name=' + colName
-		});
-	});
-	
-	$("#contentlist").sortable({
-		axis: 'y',
-		update: function (event, ui) {
-			if($("#codeGiven").length){
-				var data = $(this).sortable('serialize');
-				
-				// POST to server using $.post or $.ajax
-				$.ajax({
-					data: data,
-					type: 'POST',
-					url: 'update.php?type=changeOrder' +  '&c=' + $("#colCode").val()
-					
-				});
-			}
-		}
-	});	
-	
-});
+$(document).ready(function() {		$("#colName").change(function(){				var colName = $("#colName").val();				$.ajax({			data: '',			type: 'POST',			url: 'update.php?type=changeName' +  '&c=' + $("#colCode").val() + '&col_name=' + colName		});	});		$("#contentlist").sortable({		axis: 'y',		update: function (event, ui) {			if($("#codeGiven").length){				var data = $(this).sortable('serialize');								// POST to server using $.post or $.ajax				$.ajax({					data: data,					type: 'POST',					url: 'update.php?type=changeOrder' +  '&c=' + $("#colCode").val()									});			}		}	});			$(".rating").rating({min:0, max:3, step:1.0, stars:3, showCaption:false, showClear:false, glyphicon:true, size:'xs'});		$('.rating').on('rating.change', function(event, value, caption) {		alert(value + ' ; ' +caption);			});});
